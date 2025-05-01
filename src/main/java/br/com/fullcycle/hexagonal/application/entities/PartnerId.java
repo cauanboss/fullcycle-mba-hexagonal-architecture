@@ -4,14 +4,21 @@ import java.util.UUID;
 
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 
-public record PartnerId(UUID value) {
-    public static PartnerId unique() {
-        return new PartnerId(UUID.randomUUID());
+public record PartnerId(String value) {
+
+    public PartnerId {
+        if (value == null) {
+            throw new ValidationException("Invalid value for PartnerId", null);
+        }
     }
 
-    public static PartnerId with(String value) {
+    public static PartnerId unique() {
+        return new PartnerId(UUID.randomUUID().toString());
+    }
+
+    public static PartnerId with(final String value) {
         try {
-            return new PartnerId(UUID.fromString(value));
+            return new PartnerId(UUID.fromString(value).toString());
         } catch (IllegalArgumentException e) {
             throw new ValidationException("Invalid value for PartnerId", null);
         }

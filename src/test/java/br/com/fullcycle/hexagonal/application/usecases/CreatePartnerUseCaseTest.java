@@ -1,28 +1,13 @@
 package br.com.fullcycle.hexagonal.application.usecases;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.inMemoryPartnerRepository;
 import br.com.fullcycle.hexagonal.application.entities.Partner;
-import br.com.fullcycle.hexagonal.infrastructure.repositories.PartnerRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public class CreatePartnerUseCaseTest extends integrationTest {
-
-  // @Autowired
-  // private CreatePartnerUseCase usecase;
-
-  // @Autowired
-  // private PartnerRepository partnerRepository;
-
-  // @BeforeEach
-  // void tearDown() {
-  // partnerRepository.deleteAll();
-  // }
+public class CreatePartnerUseCaseTest {
 
   @Test
   @DisplayName("Deve Criar um Parceiro")

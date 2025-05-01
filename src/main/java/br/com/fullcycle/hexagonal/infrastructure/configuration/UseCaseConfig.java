@@ -1,6 +1,7 @@
 package br.com.fullcycle.hexagonal.infrastructure.configuration;
 
 import br.com.fullcycle.hexagonal.application.repositories.CustomerRepository;
+import br.com.fullcycle.hexagonal.application.repositories.EventRepository;
 import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
 import br.com.fullcycle.hexagonal.application.usecases.CreateCustomerUseCase;
 import br.com.fullcycle.hexagonal.application.usecases.CreateEventUseCase;
@@ -20,20 +21,21 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UseCaseConfig {
 
+  private final CustomerRepository customerRepository;
+  private final EventRepository eventRepository;
+  private final PartnerRepository partnerRepository;
   private final CustomerService customerService;
   private final EventService eventService;
-  private final PartnerService partnerService;
-  private final CustomerRepository customerRepository;
-  private final PartnerRepository partnerRepository;
 
-  public UseCaseConfig(final CustomerService customerService, final EventService eventService,
-      final PartnerService partnerService, final CustomerRepository customerRepository,
-      final PartnerRepository partnerRepository) {
+  public UseCaseConfig(final CustomerRepository customerRepository,
+      final EventRepository eventRepository, final PartnerRepository partnerRepository,
+      final CustomerService customerService, final EventService eventService,
+      final PartnerService partnerService) {
+    this.customerRepository = Objects.requireNonNull(customerRepository);
+    this.eventRepository = Objects.requireNonNull(eventRepository);
+    this.partnerRepository = Objects.requireNonNull(partnerRepository);
     this.customerService = Objects.requireNonNull(customerService);
     this.eventService = Objects.requireNonNull(eventService);
-    this.partnerService = Objects.requireNonNull(partnerService);
-    this.customerRepository = Objects.requireNonNull(customerRepository);
-    this.partnerRepository = Objects.requireNonNull(partnerRepository);
   }
 
   @Bean
@@ -48,7 +50,7 @@ public class UseCaseConfig {
 
   @Bean
   public CreateEventUseCase createEventUseCase() {
-    return new CreateEventUseCase(eventService, partnerService);
+    return new CreateEventUseCase(eventRepository, partnerRepository);
   }
 
   @Bean

@@ -10,7 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PartnerService {
 
-  @Autowired private PartnerRepository repository;
+  @Autowired
+  private PartnerRepository repository;
 
   @Transactional
   public Partner save(Partner customer) {

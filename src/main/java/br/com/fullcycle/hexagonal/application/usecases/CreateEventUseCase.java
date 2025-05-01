@@ -1,44 +1,37 @@
 package br.com.fullcycle.hexagonal.application.usecases;
 
 import br.com.fullcycle.hexagonal.application.UseCase;
+import br.com.fullcycle.hexagonal.application.entities.PartnerId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.infrastructure.models.Event;
-import br.com.fullcycle.hexagonal.infrastructure.services.EventService;
-import br.com.fullcycle.hexagonal.infrastructure.services.PartnerService;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import br.com.fullcycle.hexagonal.application.repositories.EventRepository;
+import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
+import br.com.fullcycle.hexagonal.application.entities.Event;
 
 public class CreateEventUseCase
     extends UseCase<CreateEventUseCase.Input, CreateEventUseCase.Output> {
 
-  private final EventService eventService;
-  private final PartnerService partnerService;
+  private final EventRepository eventRepository;
+  private final PartnerRepository partnerRepository;
 
-  public CreateEventUseCase(EventService eventService, PartnerService partnerService) {
-    this.eventService = eventService;
-    this.partnerService = partnerService;
+  public CreateEventUseCase(EventRepository eventRepository, PartnerRepository partnerRepository) {
+    this.eventRepository = eventRepository;
+    this.partnerRepository = partnerRepository;
   }
 
   @Override
   public Output execute(Input input) {
-    var event = new Event();
-    event.setDate(LocalDate.parse(input.date, DateTimeFormatter.ISO_DATE));
-    event.setName(input.name);
-    event.setTotalSpots(input.totalSpots);
+    final var partner = partnerRepository.partnerOfId(PartnerId.with(input.partnerId))
+        .orElseThrow(() -> new ValidationException("Partner not found", null));
 
-    partnerService
-        .findById(input.partnerId)
-        .ifPresentOrElse(
-            event::setPartner,
-            () -> {
-              throw new ValidationException("Partner not found", null);
-            });
+    final var event = eventRepository.create(Event.newEvent(input.name, input.date, input.totalSpots, partner));
 
-    event = eventService.save(event);
-    return new Output(event.getId(), input.name, input.date, input.totalSpots, input.partnerId);
+    return new Output(event.eventId().value(), event.name(), event.date().toString(),
+        event.totalSpots(), partner.partnerId().value());
   }
 
-  public record Input(String name, String date, Integer totalSpots, Long partnerId) {}
+  public record Input(String name, String date, Integer totalSpots, String partnerId) {
+  }
 
-  public record Output(Long id, String name, String date, Integer totalSpots, Long partnerId) {}
+  public record Output(String id, String name, String date, Integer totalSpots, String partnerId) {
+  }
 }
