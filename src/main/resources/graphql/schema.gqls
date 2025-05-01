@@ -1,0 +1,62 @@
+type Query {
+    customerOfId(id: ID!): Customer
+    partnerOfId(id: ID!): Partner
+}
+
+type Mutation {
+    createCustomer(input: CustomerInput): Customer!
+    createEvent(input: EventInput): Event!
+    createPartner(input: PartnerInput): Partner!
+    subscribeCustomerToEvent(input: SubscribeCustomerToEventInput): Subscribe!
+}
+
+type Customer {
+    id: ID!
+    name: String
+    email: String
+    cpf: String
+}
+
+type Event {
+    id: ID!
+    name: String!
+    date: String!
+    totalSpots: Int!
+}
+
+input EventInput {
+    date: String
+    totalSpots: Int
+    name: String
+    partnerId: ID!
+}
+
+input CustomerInput {
+    name: String
+    email: String
+    cpf: String
+}
+
+type Partner {
+    id: ID!
+    name: String
+    email: String
+    cnpj: String
+}
+
+input PartnerInput {
+    name: String
+    email: String
+    cnpj: String
+}
+
+type Subscribe {
+    eventId: ID!
+    ticketStatus: String!
+    reservationDate: String!
+}
+
+input SubscribeCustomerToEventInput {
+    eventId: ID!
+    customerId: ID!
+}
