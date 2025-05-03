@@ -2,8 +2,8 @@ package br.com.fullcycle.hexagonal.application.repositories;
 
 import java.util.Optional;
 
-import br.com.fullcycle.hexagonal.application.entities.Event;
-import br.com.fullcycle.hexagonal.application.entities.EventId;
+import br.com.fullcycle.hexagonal.application.domain.event.Event;
+import br.com.fullcycle.hexagonal.application.domain.event.EventId;
 
 public interface EventRepository {
 

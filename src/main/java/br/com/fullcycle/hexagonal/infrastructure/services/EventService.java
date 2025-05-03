@@ -1,5 +1,6 @@
 package br.com.fullcycle.hexagonal.infrastructure.services;
 
+import br.com.fullcycle.hexagonal.application.repositories.CustomerRepository;
 import br.com.fullcycle.hexagonal.infrastructure.models.Event;
 import br.com.fullcycle.hexagonal.infrastructure.models.Ticket;
 import br.com.fullcycle.hexagonal.infrastructure.repositories.EventRepository;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EventService {
 
   @Autowired
-  private CustomerService customerService;
+  private CustomerRepository customerRepository;
 
   @Autowired
   private EventRepository eventRepository;

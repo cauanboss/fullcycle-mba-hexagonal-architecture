@@ -3,8 +3,8 @@ package br.com.fullcycle.hexagonal.infrastructure.rest;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.application.usecases.CreateEventUseCase;
-import br.com.fullcycle.hexagonal.application.usecases.SubscribeCustomerToEventUseCase;
+import br.com.fullcycle.hexagonal.application.usecases.event.CreateEventUseCase;
+import br.com.fullcycle.hexagonal.application.usecases.event.SubscribeCustomerToEventUseCase;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewEventDTO;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.SubscribeDTO;
 import java.net.URI;
@@ -42,7 +42,7 @@ public class EventController {
 
   @Transactional
   @PostMapping(value = "/{id}/subscribe")
-  public ResponseEntity<?> subscribe(@PathVariable Long id, @RequestBody SubscribeDTO dto) {
+  public ResponseEntity<?> subscribe(@PathVariable String id, @RequestBody SubscribeDTO dto) {
     try {
       final var input = subscribeCustomerToEventUseCase
           .execute(new SubscribeCustomerToEventUseCase.Input(id, dto.customerId()));

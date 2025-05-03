@@ -2,8 +2,8 @@ package br.com.fullcycle.hexagonal.application.repositories;
 
 import java.util.Optional;
 
-import br.com.fullcycle.hexagonal.application.entities.Customer;
-import br.com.fullcycle.hexagonal.application.entities.CustomerId;
+import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
+import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
 
 public interface CustomerRepository {
 

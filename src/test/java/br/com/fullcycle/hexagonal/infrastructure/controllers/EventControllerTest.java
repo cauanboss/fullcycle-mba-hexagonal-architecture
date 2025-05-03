@@ -1,6 +1,6 @@
 package br.com.fullcycle.hexagonal.infrastructure.controllers;
 
-import br.com.fullcycle.hexagonal.application.usecases.CreateEventUseCase;
+import br.com.fullcycle.hexagonal.application.usecases.event.CreateEventUseCase;
 import br.com.fullcycle.hexagonal.infrastructure.Main;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewEventDTO;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.SubscribeDTO;
@@ -100,7 +100,7 @@ class EventControllerTest {
 
     var eventId = mapper.readValue(createResult, CreateEventUseCase.Output.class).id();
 
-    var sub = new SubscribeDTO(eventId, johnDoe.getId());
+    var sub = new SubscribeDTO(eventId.toString(), johnDoe.getId().toString());
 
     this.mvc
         .perform(
@@ -112,7 +112,7 @@ class EventControllerTest {
         .getResponse()
         .getContentAsByteArray();
 
-    var actualEvent = eventRepository.findById(eventId).get();
+    var actualEvent = eventRepository.findById(Long.parseLong(eventId)).get();
     Assertions.assertEquals(1, actualEvent.getTickets().size());
   }
 }

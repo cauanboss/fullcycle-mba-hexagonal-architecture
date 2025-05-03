@@ -1,6 +1,6 @@
 package br.com.fullcycle.hexagonal.infrastructure.controllers;
 
-import br.com.fullcycle.hexagonal.application.usecases.GetPartnerByIdUseCase;
+import br.com.fullcycle.hexagonal.application.usecases.partner.GetPartnerByIdUseCase;
 import br.com.fullcycle.hexagonal.infrastructure.Main;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewPartnerDTO;
 import br.com.fullcycle.hexagonal.infrastructure.repositories.PartnerRepository;

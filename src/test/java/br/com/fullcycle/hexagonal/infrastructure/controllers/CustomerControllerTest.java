@@ -1,6 +1,6 @@
 package br.com.fullcycle.hexagonal.infrastructure.controllers;
 
-import br.com.fullcycle.hexagonal.application.usecases.GetCustomerByIdUseCase;
+import br.com.fullcycle.hexagonal.application.usecases.customer.GetCustomerByIdUseCase;
 import br.com.fullcycle.hexagonal.infrastructure.Main;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewCustomerDTO;
 import br.com.fullcycle.hexagonal.infrastructure.repositories.CustomerRepository;
