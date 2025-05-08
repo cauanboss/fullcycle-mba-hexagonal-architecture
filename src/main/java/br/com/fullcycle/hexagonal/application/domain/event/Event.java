@@ -98,7 +98,7 @@ public class Event {
     }
 
     private void setDate(final String date) {
-        if (date == null) {
+        if (date == null || date.isEmpty()) {
             throw new ValidationException("Invalid value for date", null);
         }
         this.date = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);

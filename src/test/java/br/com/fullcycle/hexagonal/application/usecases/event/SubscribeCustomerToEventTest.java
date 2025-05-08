@@ -8,7 +8,6 @@ import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryCustomerRepository;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryEventRepository;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryTicketRepository;
-import br.com.fullcycle.hexagonal.application.usecases.event.SubscribeCustomerToEventUseCase;
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
 import br.com.fullcycle.hexagonal.application.domain.event.Event;

@@ -1,8 +1,8 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
 import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
+import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryPartnerRepository;
-import br.com.fullcycle.hexagonal.application.usecases.partner.GetPartnerByIdUseCase;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
@@ -55,5 +55,20 @@ public class GetPartnerByIdUseCaseTest {
     final var output = usecase.execute(input);
 
     Assertions.assertTrue(output.isEmpty());
+  }
+
+  @Test
+  @DisplayName("Deve obter um parceiro por id invalido")
+  public void testGetByPartnerWithInvalidId() {
+    final var expectedId = "invalid-id";
+
+    final var input = new GetPartnerByIdUseCase.Input(expectedId);
+
+    final var partnerRepository = new inMemoryPartnerRepository();
+
+    final var usecase = new GetPartnerByIdUseCase(partnerRepository);
+    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(input));
+
+    Assertions.assertEquals("Invalid value for PartnerId", actualException.getMessage());
   }
 }

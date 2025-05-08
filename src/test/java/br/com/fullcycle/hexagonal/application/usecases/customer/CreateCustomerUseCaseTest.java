@@ -2,7 +2,6 @@ package br.com.fullcycle.hexagonal.application.usecases.customer;
 
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryCustomerRepository;
-import br.com.fullcycle.hexagonal.application.usecases.customer.CreateCustomerUseCase;
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 
 import org.junit.jupiter.api.Assertions;
@@ -76,6 +75,39 @@ public class CreateCustomerUseCaseTest {
 
     // then
     Assertions.assertEquals(expectedError, actualException.getMessage());
+  }
+
+  @Test
+  @DisplayName("Não deve cadastrar um cliente com um cpf invalido")
+  public void testCreateWithInvalidCPFShouldFail() throws Exception {
+    final var expectedCPF = "1234567";
+    final var expectedEmail = "john.doe@gmail.com";
+    final var expectedName = "John Doe";
+
+    Assertions.assertThrows(ValidationException.class,
+        () -> Customer.newCustomer(expectedName, expectedCPF, expectedEmail));
+  }
+
+  @Test
+  @DisplayName("Não deve cadastrar um cliente com um email invalido")
+  public void testCreateWithInvalidEmailShouldFail() throws Exception {
+    final var expectedCPF = "12345678901";
+    final var expectedEmail = "john.doegmail.com";
+    final var expectedName = "John Doe";
+
+    Assertions.assertThrows(ValidationException.class,
+        () -> Customer.newCustomer(expectedName, expectedCPF, expectedEmail));
+  }
+
+  @Test
+  @DisplayName("Não deve cadastrar um cliente com um nome invalido")
+  public void testCreateWithInvalidNameShouldFail() throws Exception {
+    final var expectedCPF = "12345678901";
+    final var expectedEmail = "john.doe@gmail.com";
+    final var expectedName = "";
+
+    Assertions.assertThrows(ValidationException.class,
+        () -> Customer.newCustomer(expectedName, expectedCPF, expectedEmail));
   }
 
 }

@@ -8,7 +8,6 @@ import br.com.fullcycle.hexagonal.application.domain.partner.PartnerId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryEventRepository;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryPartnerRepository;
-import br.com.fullcycle.hexagonal.application.usecases.event.CreateEventUseCase;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

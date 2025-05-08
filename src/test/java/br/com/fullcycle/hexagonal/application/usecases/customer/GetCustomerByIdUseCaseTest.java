@@ -2,7 +2,6 @@ package br.com.fullcycle.hexagonal.application.usecases.customer;
 
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryCustomerRepository;
-import br.com.fullcycle.hexagonal.application.usecases.customer.GetCustomerByIdUseCase;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
