@@ -1,6 +1,5 @@
 package br.com.fullcycle.hexagonal.application.domain.customer;
 
-import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
