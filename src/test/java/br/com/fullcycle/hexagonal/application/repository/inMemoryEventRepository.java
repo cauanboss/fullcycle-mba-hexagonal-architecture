@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import br.com.fullcycle.hexagonal.application.domain.event.Event;
 import br.com.fullcycle.hexagonal.application.domain.event.EventId;
+import br.com.fullcycle.hexagonal.application.domain.person.Name;
 import br.com.fullcycle.hexagonal.application.repositories.EventRepository;
 
 public class inMemoryEventRepository implements EventRepository {
@@ -23,8 +24,8 @@ public class inMemoryEventRepository implements EventRepository {
     }
 
     @Override
-    public Optional<Event> eventOfName(String name) {
-        return Optional.ofNullable(this.events.get(Objects.requireNonNull(name)));
+    public Optional<Event> eventOfName(Name name) {
+        return Optional.ofNullable(this.events.get(Objects.requireNonNull(name).value()));
     }
 
     @Override

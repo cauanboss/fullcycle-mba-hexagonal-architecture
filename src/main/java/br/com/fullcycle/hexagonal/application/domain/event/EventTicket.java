@@ -3,6 +3,7 @@ package br.com.fullcycle.hexagonal.application.domain.event;
 import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
+import java.util.Objects;
 
 public class EventTicket {
     private final TicketId ticketId;
@@ -37,6 +38,21 @@ public class EventTicket {
 
     public CustomerId customerId() {
         return customerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        EventTicket that = (EventTicket) o;
+        return Objects.equals(ticketId, that.ticketId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticketId);
     }
 
     private void setOrdering(final Integer ordering) {

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
@@ -88,6 +89,21 @@ public class Event {
 
     public Set<EventTicket> allTickets() {
         return Collections.unmodifiableSet(this.tickets);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Event event = (Event) o;
+        return Objects.equals(eventId, event.eventId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventId);
     }
 
     private void setName(final String name) {

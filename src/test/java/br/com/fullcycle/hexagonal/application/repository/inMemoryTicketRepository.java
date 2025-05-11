@@ -25,20 +25,6 @@ public class inMemoryTicketRepository implements TicketRepository {
     }
 
     @Override
-    public Optional<Ticket> ticketOfEventId(EventId eventId) {
-        return this.tickets.values().stream()
-                .filter(ticket -> Objects.equals(ticket.eventId().value(), eventId.value()))
-                .findFirst();
-    }
-
-    @Override
-    public Optional<Ticket> ticketOfCustomerId(CustomerId customerId) {
-        return this.tickets.values().stream()
-                .filter(ticket -> Objects.equals(ticket.customerId().value(), customerId.value()))
-                .findFirst();
-    }
-
-    @Override
     public Ticket create(Ticket ticket) {
         this.tickets.put(ticket.ticketId().value().toString(), ticket);
         return ticket;

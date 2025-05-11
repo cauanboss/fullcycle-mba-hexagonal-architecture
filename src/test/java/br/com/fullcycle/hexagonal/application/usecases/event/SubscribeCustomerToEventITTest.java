@@ -5,12 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import br.com.fullcycle.hexagonal.integrationTest;
+import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketStatus;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.infrastructure.models.Customer;
-import br.com.fullcycle.hexagonal.infrastructure.models.Event;
-import br.com.fullcycle.hexagonal.infrastructure.models.TicketStatus;
-import br.com.fullcycle.hexagonal.infrastructure.repositories.CustomerRepository;
-import br.com.fullcycle.hexagonal.infrastructure.repositories.EventRepository;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.CustomerEntity;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.EventEntity;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.CustomerJpaRepository;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.EventJpaRepository;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,10 +24,10 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
   private SubscribeCustomerToEventUseCase usecase;
 
   @Autowired
-  private EventRepository eventRepository;
+  private EventJpaRepository eventRepository;
 
   @Autowired
-  private CustomerRepository customerRepository;
+  private CustomerJpaRepository customerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -129,15 +129,15 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
     assertEquals(expectedError, actualException.getMessage());
   }
 
-  private Event saveEvent(final String name, final int totalSpots) {
-    final var event = new Event();
+  private EventEntity saveEvent(final String name, final int totalSpots) {
+    final var event = new EventEntity();
     event.setName(name);
     event.setTotalSpots(totalSpots);
     return eventRepository.save(event);
   }
 
-  private Customer saveCustomer(final String name, final String email, final String cpf) {
-    final var customer = new Customer();
+  private CustomerEntity saveCustomer(final String name, final String email, final String cpf) {
+    final var customer = new CustomerEntity();
     customer.setName(name);
     customer.setEmail(email);
     customer.setCpf(cpf);

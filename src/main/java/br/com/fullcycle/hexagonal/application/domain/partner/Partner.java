@@ -4,6 +4,7 @@ import br.com.fullcycle.hexagonal.application.domain.person.Cnpj;
 import br.com.fullcycle.hexagonal.application.domain.person.Email;
 import br.com.fullcycle.hexagonal.application.domain.person.Name;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
+import java.util.Objects;
 
 public class Partner {
     private final PartnerId partnerId;
@@ -40,6 +41,21 @@ public class Partner {
 
     public PartnerId partnerId() {
         return this.partnerId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Partner partner = (Partner) o;
+        return Objects.equals(partnerId, partner.partnerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(partnerId);
     }
 
     private void setEmail(final String email) {

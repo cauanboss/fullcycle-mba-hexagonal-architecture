@@ -1,8 +1,8 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
 import br.com.fullcycle.hexagonal.integrationTest;
-import br.com.fullcycle.hexagonal.infrastructure.models.Partner;
-import br.com.fullcycle.hexagonal.infrastructure.repositories.PartnerRepository;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.PartnerEntity;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.PartnerJpaRepository;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ public class GetPartnerByIdUseCaseITTest extends integrationTest {
   private GetPartnerByIdUseCase usecase;
 
   @Autowired
-  private PartnerRepository partnerRepository;
+  private PartnerJpaRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -55,8 +55,8 @@ public class GetPartnerByIdUseCaseITTest extends integrationTest {
     Assertions.assertTrue(output.isEmpty());
   }
 
-  private Partner savePartner(final String cnpj, final String email, final String name) {
-    final var partner = new Partner();
+  private PartnerEntity savePartner(final String cnpj, final String email, final String name) {
+    final var partner = new PartnerEntity();
     partner.setCnpj(cnpj);
     partner.setEmail(email);
     partner.setName(name);

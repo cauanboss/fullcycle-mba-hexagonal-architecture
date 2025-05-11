@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.partner.PartnerId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.infrastructure.models.Partner;
-import br.com.fullcycle.hexagonal.infrastructure.repositories.EventRepository;
-import br.com.fullcycle.hexagonal.infrastructure.repositories.PartnerRepository;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.PartnerEntity;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.EventJpaRepository;
+import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.PartnerJpaRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,10 +21,10 @@ public class CreateEventUseCaseITTest extends integrationTest {
   private CreateEventUseCase usecase;
 
   @Autowired
-  private EventRepository eventRepository;
+  private EventJpaRepository eventRepository;
 
   @Autowired
-  private PartnerRepository partnerRepository;
+  private PartnerJpaRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -75,8 +75,8 @@ public class CreateEventUseCaseITTest extends integrationTest {
     assertThat(output.getMessage()).isEqualTo(expectedErrorMessage);
   }
 
-  private Partner savePartner(final String cnpj, final String email, final String name) {
-    final var partner = new Partner();
+  private PartnerEntity savePartner(final String cnpj, final String email, final String name) {
+    final var partner = new PartnerEntity();
     partner.setCnpj(cnpj);
     partner.setEmail(email);
     partner.setName(name);

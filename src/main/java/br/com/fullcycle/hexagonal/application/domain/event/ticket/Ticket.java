@@ -1,11 +1,11 @@
 package br.com.fullcycle.hexagonal.application.domain.event.ticket;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
 import br.com.fullcycle.hexagonal.application.domain.event.EventId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.infrastructure.models.TicketStatus;
 
 public class Ticket {
     private final TicketId ticketId;
@@ -15,8 +15,13 @@ public class Ticket {
     private Instant paidAt;
     private Instant reservedAt;
 
-    public Ticket(final TicketId ticketId, final EventId eventId, final CustomerId customerId,
-            final TicketStatus status, final Instant paidAt, final Instant reservedAt) {
+    public Ticket(
+            final TicketId ticketId,
+            final EventId eventId,
+            final CustomerId customerId,
+            final TicketStatus status,
+            final Instant paidAt,
+            final Instant reservedAt) {
         this.ticketId = ticketId;
         this.setEventId(eventId);
         this.setCustomerId(customerId);
@@ -51,6 +56,21 @@ public class Ticket {
 
     public Instant reservedAt() {
         return this.reservedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(ticketId, ticket.ticketId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticketId);
     }
 
     private void setCustomerId(final CustomerId customerId) {

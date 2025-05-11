@@ -4,12 +4,13 @@ import java.util.Optional;
 
 import br.com.fullcycle.hexagonal.application.domain.event.Event;
 import br.com.fullcycle.hexagonal.application.domain.event.EventId;
+import br.com.fullcycle.hexagonal.application.domain.person.Name;
 
 public interface EventRepository {
 
     Optional<Event> eventOfId(EventId eventId);
 
-    Optional<Event> eventOfName(String name);
+    Optional<Event> eventOfName(Name name);
 
     Optional<Event> eventOfDate(String date);
 
