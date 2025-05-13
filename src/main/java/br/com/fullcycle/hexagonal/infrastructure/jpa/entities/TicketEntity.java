@@ -1,7 +1,5 @@
 package br.com.fullcycle.hexagonal.infrastructure.jpa.entities;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.Objects;
@@ -18,7 +16,6 @@ import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketStatus;
 public class TicketEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY)

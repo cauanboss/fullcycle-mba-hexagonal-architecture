@@ -11,7 +11,7 @@ public class EventTicket {
     private final CustomerId customerId;
     private Integer ordering;
 
-    protected EventTicket(final TicketId ticketId, final EventId eventId, final CustomerId customerId,
+    public EventTicket(final TicketId ticketId, final EventId eventId, final CustomerId customerId,
             final Integer ordering) {
         this.ticketId = ticketId;
         this.eventId = eventId;
