@@ -23,28 +23,37 @@ public class Event {
     private PartnerId partnerId;
     private Set<EventTicket> tickets;
 
-    public Event(final EventId eventId, final String name, final String date,
-            final Integer totalSpots, final PartnerId partnerId) {
+    public Event(
+            final EventId eventId,
+            final String name,
+            final String date,
+            final Integer totalSpots,
+            final PartnerId partnerId,
+            final Set<EventTicket> tickets) {
 
-        this(eventId);
+        this(eventId, tickets);
         this.setName(name);
         this.setDate(date);
         this.setTotalSpots(totalSpots);
         this.setPartnerId(partnerId);
+        this.tickets = tickets;
     }
 
-    private Event(final EventId eventId) {
+    private Event(final EventId eventId, final Set<EventTicket> tickets) {
         if (eventId == null) {
             throw new ValidationException("Invalid value for EventId", null);
         }
         this.eventId = eventId;
-        this.tickets = new HashSet<>(0);
+        this.tickets = tickets != null ? tickets : new HashSet<>(0);
     }
 
-    public static Event newEvent(final String name, final String date,
+    public static Event newEvent(
+            final String name,
+            final String date,
             final Integer totalSpots,
             final Partner partner) {
-        return new Event(EventId.unique(), name, date, totalSpots, partner.partnerId());
+        return new Event(EventId.unique(), name, date, totalSpots, PartnerId.with(partner.partnerId()),
+                new HashSet<>(0));
     }
 
     public Ticket resetTicket(final CustomerId customerId) {
@@ -65,6 +74,16 @@ public class Event {
                 this.allTickets().size() + 1));
 
         return newTicket;
+    }
+
+    public static Event restore(
+            final String eventId,
+            final String name,
+            final String date,
+            final Integer totalSpots,
+            final String partnerId,
+            final Set<EventTicket> tickets) {
+        return new Event(EventId.with(eventId), name, date, totalSpots, PartnerId.with(partnerId), tickets);
     }
 
     public EventId eventId() {

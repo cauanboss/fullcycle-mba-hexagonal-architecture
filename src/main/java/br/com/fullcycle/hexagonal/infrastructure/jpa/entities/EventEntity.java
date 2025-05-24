@@ -2,29 +2,25 @@ package br.com.fullcycle.hexagonal.infrastructure.jpa.entities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.time.Instant;
 
 import br.com.fullcycle.hexagonal.application.domain.event.Event;
-import br.com.fullcycle.hexagonal.application.domain.event.EventId;
-import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketStatus;
-import br.com.fullcycle.hexagonal.application.domain.event.ticket.Ticket;
+import br.com.fullcycle.hexagonal.application.domain.event.EventTicket;
 
-@Entity
+@Entity(name = "Events")
 @Table(name = "events")
 public class EventEntity {
 
@@ -38,46 +34,54 @@ public class EventEntity {
 
   private int totalSpots;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private PartnerEntity partner;
+  @Column(name = "partner_id")
+  private UUID partnerId;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
-  private Set<TicketEntity> tickets;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "event")
+  private Set<EventTicketEntity> tickets;
 
   public EventEntity() {
     this.tickets = new HashSet<>();
   }
 
-  public EventEntity(UUID id, String name, LocalDate date, int totalSpots, Set<TicketEntity> tickets) {
+  public EventEntity(UUID id, String name, LocalDate date, int totalSpots, UUID partnerId) {
+    this();
     this.id = id;
     this.name = name;
     this.date = date;
     this.totalSpots = totalSpots;
-    this.tickets = tickets != null ? tickets : new HashSet<>();
+    this.partnerId = partnerId;
   }
 
   public static EventEntity of(final Event event) {
-    return new EventEntity(
+    final var eventEntity = new EventEntity(
         UUID.fromString(event.eventId().value()),
         event.name(),
         event.date(),
         event.totalSpots(),
-        event.allTickets().stream()
-            .map(eventTicket -> {
-              var ticket = new Ticket(
-                  eventTicket.ticketId(),
-                  eventTicket.eventId(),
-                  eventTicket.customerId(),
-                  TicketStatus.PENDING,
-                  null,
-                  Instant.now());
-              return TicketEntity.of(ticket);
-            })
-            .collect(Collectors.toSet()));
+        UUID.fromString(event.partnerId().value()));
+
+    event.allTickets().forEach(ticket -> {
+      eventEntity.addTicket(ticket);
+    });
+
+    return eventEntity;
+  }
+
+  private void addTicket(final EventTicket ticket) {
+    this.tickets.add(EventTicketEntity.of(this, ticket));
   }
 
   public Event toEvent() {
-    return new Event(EventId.with(id.toString()), name, date.toString(), totalSpots, partner.toPartner().partnerId());
+    return Event.restore(
+        id.toString(),
+        name,
+        date.toString(),
+        totalSpots,
+        partnerId.toString(),
+        this.tickets.stream()
+            .map(EventTicketEntity::toEventTicket)
+            .collect(Collectors.toSet()));
   }
 
   public UUID getId() {
@@ -112,19 +116,19 @@ public class EventEntity {
     this.totalSpots = totalSpots;
   }
 
-  public PartnerEntity getPartner() {
-    return partner;
+  public UUID getPartnerId() {
+    return partnerId;
   }
 
-  public void setPartner(PartnerEntity partner) {
-    this.partner = partner;
+  public void setPartnerId(UUID partnerId) {
+    this.partnerId = partnerId;
   }
 
-  public Set<TicketEntity> getTickets() {
+  public Set<EventTicketEntity> getTickets() {
     return tickets;
   }
 
-  public void setTickets(Set<TicketEntity> tickets) {
+  public void setTickets(Set<EventTicketEntity> tickets) {
     this.tickets = tickets;
   }
 

@@ -11,17 +11,17 @@ import br.com.fullcycle.hexagonal.application.domain.event.ticket.Ticket;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketId;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketStatus;
 
-@Entity
+@Entity(name = "Tickets")
 @Table(name = "tickets")
 public class TicketEntity {
 
   @Id
   private UUID id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @Column(name = "customer_id")
   private UUID customerId;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @Column(name = "event_id")
   private UUID eventId;
 
   @Enumerated(EnumType.STRING)

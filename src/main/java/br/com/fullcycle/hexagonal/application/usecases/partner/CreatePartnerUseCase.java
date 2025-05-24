@@ -27,7 +27,7 @@ public class CreatePartnerUseCase
 
     final var partner = partnerRepository.create(Partner.newPartner(input.name, input.cnpj, input.email));
 
-    return new Output(partner.partnerId().value(), partner.cnpj().value(), partner.email().value(),
+    return new Output(partner.partnerId(), partner.cnpj().value(), partner.email().value(),
         partner.name().value());
   }
 

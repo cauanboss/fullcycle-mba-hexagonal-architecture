@@ -11,12 +11,12 @@ import java.util.UUID;
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
 
-@Entity
+@Entity(name = "Customers")
 @Table(name = "customers")
 public class CustomerEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   private String name;

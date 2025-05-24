@@ -55,4 +55,10 @@ public class PartnerDatabaseRepository implements PartnerRepository {
                 .toPartner();
     }
 
+    @Override
+    @Transactional
+    public void deleteAll() {
+        this.partnerJpaRepository.deleteAll();
+    }
+
 }

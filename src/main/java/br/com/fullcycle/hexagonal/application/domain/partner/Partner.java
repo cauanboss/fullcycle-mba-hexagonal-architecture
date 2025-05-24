@@ -39,8 +39,8 @@ public class Partner {
         return this.name;
     }
 
-    public PartnerId partnerId() {
-        return this.partnerId;
+    public String partnerId() {
+        return this.partnerId.value();
     }
 
     @Override

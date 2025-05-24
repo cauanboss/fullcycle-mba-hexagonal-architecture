@@ -12,7 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity(name = "Partners")
 @Table(name = "partners")
 public class PartnerEntity {
 
@@ -37,7 +37,7 @@ public class PartnerEntity {
   }
 
   public static PartnerEntity of(final Partner partner) {
-    return new PartnerEntity(UUID.fromString(partner.partnerId().value()), partner.name().value(),
+    return new PartnerEntity(UUID.fromString(partner.partnerId()), partner.name().value(),
         partner.cnpj().value(), partner.email().value());
   }
 

@@ -9,8 +9,8 @@ import br.com.fullcycle.hexagonal.application.domain.event.EventId;
 import br.com.fullcycle.hexagonal.application.domain.event.EventTicket;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketId;
 
-@Entity
-@Table(name = "tickets")
+@Entity(name = "EventTickets")
+@Table(name = "event_tickets")
 public class EventTicketEntity {
 
   @Id

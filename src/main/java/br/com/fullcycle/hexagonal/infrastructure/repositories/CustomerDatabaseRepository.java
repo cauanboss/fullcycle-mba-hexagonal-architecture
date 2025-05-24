@@ -55,4 +55,10 @@ public class CustomerDatabaseRepository implements CustomerRepository {
                 .toCustomer();
     }
 
+    @Override
+    @Transactional
+    public void deleteAll() {
+        this.customerJpaRepository.deleteAll();
+    }
+
 }

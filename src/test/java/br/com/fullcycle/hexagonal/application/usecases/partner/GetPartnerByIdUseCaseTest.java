@@ -25,7 +25,7 @@ public class GetPartnerByIdUseCaseTest {
     final var partnerRepository = new inMemoryPartnerRepository();
 
     final var createdPartner = partnerRepository.create(aPartner);
-    final var expectedId = createdPartner.partnerId().value().toString();
+    final var expectedId = createdPartner.partnerId();
 
     final var input = new GetPartnerByIdUseCase.Input(expectedId);
 

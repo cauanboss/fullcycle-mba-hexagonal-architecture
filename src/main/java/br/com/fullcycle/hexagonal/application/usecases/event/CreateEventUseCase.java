@@ -26,7 +26,7 @@ public class CreateEventUseCase
     final var event = eventRepository.create(Event.newEvent(input.name, input.date, input.totalSpots, partner));
 
     return new Output(event.eventId().value(), event.name(), event.date().toString(),
-        event.totalSpots(), partner.partnerId().value());
+        event.totalSpots(), partner.partnerId());
   }
 
   public record Input(String name, String date, Integer totalSpots, String partnerId) {

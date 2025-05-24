@@ -1,5 +1,6 @@
 package br.com.fullcycle.hexagonal.infrastructure.repositories;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class EventDatabaseRepository implements EventRepository {
 
     @Override
     public Optional<Event> eventOfDate(String date) {
-        return this.eventJpaRepository.findByDate(date)
+        return this.eventJpaRepository.findByDate(LocalDate.parse(date))
                 .map(it -> it.toEvent());
     }
 
@@ -52,5 +53,11 @@ public class EventDatabaseRepository implements EventRepository {
     public Event update(Event event) {
         return this.eventJpaRepository.save(EventEntity.of(event))
                 .toEvent();
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll() {
+        this.eventJpaRepository.deleteAll();
     }
 }

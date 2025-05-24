@@ -1,9 +1,10 @@
 package br.com.fullcycle.hexagonal.application.usecases.customer;
 
 import br.com.fullcycle.hexagonal.integrationTest;
+import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.CustomerEntity;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.CustomerJpaRepository;
+import br.com.fullcycle.hexagonal.application.repositories.CustomerRepository;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,7 @@ public class CreateCustomerUseCaseITTest extends integrationTest {
   private CreateCustomerUseCase usecase;
 
   @Autowired
-  private CustomerJpaRepository customerRepository;
+  private CustomerRepository customerRepository;
 
   @AfterEach
   void tearDown() {
@@ -64,7 +65,7 @@ public class CreateCustomerUseCaseITTest extends integrationTest {
   @DisplayName("Não deve cadastrar um cliente com CPF duplicado")
   public void testCreateWithDuplicatedEmailShouldFail() throws Exception {
 
-    final var expectedCPF = "123456789011";
+    final var expectedCPF = "12345678902";
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "John Doe";
     final var expectedError = "Customer already exists";
@@ -79,11 +80,7 @@ public class CreateCustomerUseCaseITTest extends integrationTest {
     Assertions.assertEquals(expectedError, actualException.getMessage());
   }
 
-  private CustomerEntity saveCustomer(final String cpf, final String email, final String name) {
-    final var customer = new CustomerEntity();
-    customer.setCpf(cpf);
-    customer.setEmail(email);
-    customer.setName(name);
-    return customerRepository.save(customer);
+  private Customer saveCustomer(final String cpf, final String email, final String name) {
+    return customerRepository.create(Customer.newCustomer(name, cpf, email));
   }
 }

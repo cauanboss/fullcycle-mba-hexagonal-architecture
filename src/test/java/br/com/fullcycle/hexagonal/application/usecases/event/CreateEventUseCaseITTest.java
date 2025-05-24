@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import br.com.fullcycle.hexagonal.integrationTest;
+import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
 import br.com.fullcycle.hexagonal.application.domain.partner.PartnerId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.PartnerEntity;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.EventJpaRepository;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.PartnerJpaRepository;
+import br.com.fullcycle.hexagonal.application.repositories.EventRepository;
+import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,10 +21,10 @@ public class CreateEventUseCaseITTest extends integrationTest {
   private CreateEventUseCase usecase;
 
   @Autowired
-  private EventJpaRepository eventRepository;
+  private EventRepository eventRepository;
 
   @Autowired
-  private PartnerJpaRepository partnerRepository;
+  private PartnerRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -40,10 +40,9 @@ public class CreateEventUseCaseITTest extends integrationTest {
     final var expectedName = "Disney on Ice";
     final var expectedDate = "2021-01-01";
     final var expectedTotalSpots = 10;
-    final var expectedPartnerId = PartnerId.unique();
 
     final var createInput = new CreateEventUseCase.Input(
-        expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
+        expectedName, expectedDate, expectedTotalSpots, partner.partnerId());
     // when
 
     final var output = usecase.execute(createInput);
@@ -53,7 +52,7 @@ public class CreateEventUseCaseITTest extends integrationTest {
     assertThat(output.name()).isEqualTo(expectedName);
     assertThat(output.date()).isEqualTo(expectedDate);
     assertThat(output.totalSpots()).isEqualTo(expectedTotalSpots);
-    assertThat(output.partnerId()).isEqualTo(expectedPartnerId);
+    assertThat(output.partnerId()).isEqualTo(partner.partnerId());
   }
 
   @Test
@@ -75,11 +74,7 @@ public class CreateEventUseCaseITTest extends integrationTest {
     assertThat(output.getMessage()).isEqualTo(expectedErrorMessage);
   }
 
-  private PartnerEntity savePartner(final String cnpj, final String email, final String name) {
-    final var partner = new PartnerEntity();
-    partner.setCnpj(cnpj);
-    partner.setEmail(email);
-    partner.setName(name);
-    return partnerRepository.save(partner);
+  private Partner savePartner(final String cnpj, final String email, final String name) {
+    return partnerRepository.create(Partner.newPartner(name, cnpj, email));
   }
 }

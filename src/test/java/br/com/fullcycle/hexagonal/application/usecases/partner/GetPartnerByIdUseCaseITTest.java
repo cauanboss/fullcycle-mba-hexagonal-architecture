@@ -1,8 +1,8 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
 import br.com.fullcycle.hexagonal.integrationTest;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.PartnerEntity;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.repositories.PartnerJpaRepository;
+import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
+import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ public class GetPartnerByIdUseCaseITTest extends integrationTest {
   private GetPartnerByIdUseCase usecase;
 
   @Autowired
-  private PartnerJpaRepository partnerRepository;
+  private PartnerRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -31,9 +31,8 @@ public class GetPartnerByIdUseCaseITTest extends integrationTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "John Doe";
     final var partner = savePartner(expectedCNPJ, expectedEmail, expectedName);
-    final var expectedId = partner.getId();
-
-    final var input = new GetPartnerByIdUseCase.Input(expectedId.toString());
+    final var expectedId = partner.partnerId();
+    final var input = new GetPartnerByIdUseCase.Input(expectedId);
     final var output = usecase.execute(input).get();
 
     // then
@@ -55,11 +54,7 @@ public class GetPartnerByIdUseCaseITTest extends integrationTest {
     Assertions.assertTrue(output.isEmpty());
   }
 
-  private PartnerEntity savePartner(final String cnpj, final String email, final String name) {
-    final var partner = new PartnerEntity();
-    partner.setCnpj(cnpj);
-    partner.setEmail(email);
-    partner.setName(name);
-    return partnerRepository.save(partner);
+  private Partner savePartner(final String cnpj, final String email, final String name) {
+    return partnerRepository.create(Partner.newPartner(name, cnpj, email));
   }
 }

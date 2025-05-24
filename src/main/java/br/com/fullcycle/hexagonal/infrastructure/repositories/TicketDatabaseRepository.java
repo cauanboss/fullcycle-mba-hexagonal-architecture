@@ -43,4 +43,10 @@ public class TicketDatabaseRepository implements TicketRepository {
                 .toTicket();
     }
 
+    @Override
+    @Transactional
+    public void deleteAll() {
+        this.ticketJpaRepository.deleteAll();
+    }
+
 }

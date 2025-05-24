@@ -1,14 +1,26 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
+import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
+import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryPartnerRepository;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class CreatePartnerUseCaseITTest {
+public class CreatePartnerUseCaseITTest extends integrationTest {
+
+  @Autowired
+  private PartnerRepository partnerRepository;
+
+  @BeforeEach
+  void tearDown() {
+    partnerRepository.deleteAll();
+  }
 
   @Test
   @DisplayName("Deve Criar um Parceiro")
@@ -20,8 +32,6 @@ public class CreatePartnerUseCaseITTest {
     final var expectedName = "John Doe";
 
     final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
-
-    final var partnerRepository = new inMemoryPartnerRepository();
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
     final var output = usecase.execute(createInput);

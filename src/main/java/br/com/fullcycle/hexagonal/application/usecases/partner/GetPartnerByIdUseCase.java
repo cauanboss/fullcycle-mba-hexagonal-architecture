@@ -18,7 +18,7 @@ public class GetPartnerByIdUseCase
   public Optional<Output> execute(Input input) {
     return partnerRepository
         .partnerOfId(PartnerId.with(input.id()))
-        .map(p -> new Output(p.partnerId().value(), p.cnpj().value(), p.email().value(), p.name().value()));
+        .map(p -> new Output(p.partnerId(), p.cnpj().value(), p.email().value(), p.name().value()));
   }
 
   public record Input(String id) {

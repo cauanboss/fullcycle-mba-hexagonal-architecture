@@ -28,7 +28,7 @@ public class EventTest {
         Assertions.assertEquals(expectedName, event.name());
         Assertions.assertEquals(expectedDate, event.date().toString());
         Assertions.assertEquals(expectedTotalSpots, event.totalSpots());
-        Assertions.assertEquals(partner.partnerId(), event.partnerId());
+        Assertions.assertEquals(partner.partnerId(), event.partnerId().value());
     }
 
     @Test

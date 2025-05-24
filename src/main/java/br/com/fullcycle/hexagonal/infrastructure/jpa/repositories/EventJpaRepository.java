@@ -1,5 +1,6 @@
 package br.com.fullcycle.hexagonal.infrastructure.jpa.repositories;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,5 +11,5 @@ public interface EventJpaRepository extends CrudRepository<EventEntity, UUID> {
 
     Optional<EventEntity> findByName(String name);
 
-    Optional<EventEntity> findByDate(String date);
+    Optional<EventEntity> findByDate(LocalDate date);
 }
