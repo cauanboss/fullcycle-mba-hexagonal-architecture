@@ -1,9 +1,8 @@
 package br.com.fullcycle.hexagonal.application.usecases.customer;
 
+import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryCustomerRepository;
-import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,8 @@ public class CreateCustomerUseCaseTest {
 
     final var customerRepository = new inMemoryCustomerRepository();
 
-    final var createInput = new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
+    final var createInput =
+        new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
 
     final var usecase = new CreateCustomerUseCase(customerRepository);
     final var output = usecase.execute(createInput);
@@ -46,9 +46,11 @@ public class CreateCustomerUseCaseTest {
     final var customerRepository = new inMemoryCustomerRepository();
     customerRepository.create(aCustomer);
 
-    final var createInput = new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
+    final var createInput =
+        new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
     final var usecase = new CreateCustomerUseCase(customerRepository);
-    final var actualExeption = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualExeption =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualExeption.getMessage());
@@ -68,10 +70,12 @@ public class CreateCustomerUseCaseTest {
     final var customerRepository = new inMemoryCustomerRepository();
     customerRepository.create(aCustomer);
 
-    final var createInput = new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
+    final var createInput =
+        new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
     final var usecase = new CreateCustomerUseCase(customerRepository);
 
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualException.getMessage());
@@ -84,7 +88,8 @@ public class CreateCustomerUseCaseTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "John Doe";
 
-    Assertions.assertThrows(ValidationException.class,
+    Assertions.assertThrows(
+        ValidationException.class,
         () -> Customer.newCustomer(expectedName, expectedCPF, expectedEmail));
   }
 
@@ -95,7 +100,8 @@ public class CreateCustomerUseCaseTest {
     final var expectedEmail = "john.doegmail.com";
     final var expectedName = "John Doe";
 
-    Assertions.assertThrows(ValidationException.class,
+    Assertions.assertThrows(
+        ValidationException.class,
         () -> Customer.newCustomer(expectedName, expectedCPF, expectedEmail));
   }
 
@@ -106,8 +112,8 @@ public class CreateCustomerUseCaseTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "";
 
-    Assertions.assertThrows(ValidationException.class,
+    Assertions.assertThrows(
+        ValidationException.class,
         () -> Customer.newCustomer(expectedName, expectedCPF, expectedEmail));
   }
-
 }

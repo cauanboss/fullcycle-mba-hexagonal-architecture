@@ -1,12 +1,9 @@
 package br.com.fullcycle.hexagonal;
 
+import br.com.fullcycle.hexagonal.infrastructure.Main;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import br.com.fullcycle.hexagonal.infrastructure.Main;
-
 @ActiveProfiles("test")
 @SpringBootTest(classes = Main.class)
-public abstract class integrationTest {
-
-}
+public abstract class integrationTest {}

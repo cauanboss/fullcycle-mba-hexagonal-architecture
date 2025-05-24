@@ -27,14 +27,16 @@ public class CreateCustomerUseCase
       throw new ValidationException("Customer already exists", null);
     }
 
-    final var customer = customerRepository.create(Customer.newCustomer(input.name, input.cpf, input.email));
-    return new Output(customer.customerId().value(), customer.cpf().value(), customer.email().value(),
+    final var customer =
+        customerRepository.create(Customer.newCustomer(input.name, input.cpf, input.email));
+    return new Output(
+        customer.customerId().value(),
+        customer.cpf().value(),
+        customer.email().value(),
         customer.name().value());
   }
 
-  public record Input(String cpf, String email, String name) {
-  }
+  public record Input(String cpf, String email, String name) {}
 
-  public record Output(String id, String cpf, String email, String name) {
-  }
+  public record Output(String id, String cpf, String email, String name) {}
 }

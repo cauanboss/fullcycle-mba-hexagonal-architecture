@@ -1,9 +1,8 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
+import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryPartnerRepository;
-import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,8 @@ public class CreatePartnerUseCaseTest {
 
     final var partnerRepository = new inMemoryPartnerRepository();
 
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
     final var output = usecase.execute(createInput);
@@ -45,11 +45,13 @@ public class CreatePartnerUseCaseTest {
     final var partner = Partner.newPartner(expectedName, expectedCNPJ, expectedEmail);
     partnerRepository.create(partner);
 
-    final var createInput = new CreatePartnerUseCase.Input(partner.cnpj().value(), partner.email().value(),
-        partner.name().value());
+    final var createInput =
+        new CreatePartnerUseCase.Input(
+            partner.cnpj().value(), partner.email().value(), partner.name().value());
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
-    final var actualExeption = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualExeption =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualExeption.getMessage());
@@ -66,11 +68,13 @@ public class CreatePartnerUseCaseTest {
     final var partnerRepository = new inMemoryPartnerRepository();
     final var partner = Partner.newPartner(expectedName, expectedCNPJ, expectedEmail);
     partnerRepository.create(partner);
-    final var createInput = new CreatePartnerUseCase.Input(partner.cnpj().value(), partner.email().value(),
-        partner.name().value());
+    final var createInput =
+        new CreatePartnerUseCase.Input(
+            partner.cnpj().value(), partner.email().value(), partner.name().value());
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualException.getMessage());
@@ -83,10 +87,12 @@ public class CreatePartnerUseCaseTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "John Doe";
     final var partnerRepository = new inMemoryPartnerRepository();
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     Assertions.assertEquals("Invalid value for Cnpj", actualException.getMessage());
   }
@@ -98,10 +104,12 @@ public class CreatePartnerUseCaseTest {
     final var expectedEmail = "john.doegmail.com";
     final var expectedName = "John Doe";
     final var partnerRepository = new inMemoryPartnerRepository();
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     Assertions.assertEquals("Invalid value for Email", actualException.getMessage());
   }
@@ -113,10 +121,12 @@ public class CreatePartnerUseCaseTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "";
     final var partnerRepository = new inMemoryPartnerRepository();
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     Assertions.assertEquals("Invalid value for Name", actualException.getMessage());
   }

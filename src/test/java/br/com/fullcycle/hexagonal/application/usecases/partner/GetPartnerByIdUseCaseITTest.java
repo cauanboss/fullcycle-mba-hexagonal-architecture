@@ -1,8 +1,8 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
 import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
+import br.com.fullcycle.hexagonal.integrationTest;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class GetPartnerByIdUseCaseITTest extends integrationTest {
 
-  @Autowired
-  private GetPartnerByIdUseCase usecase;
+  @Autowired private GetPartnerByIdUseCase usecase;
 
-  @Autowired
-  private PartnerRepository partnerRepository;
+  @Autowired private PartnerRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {

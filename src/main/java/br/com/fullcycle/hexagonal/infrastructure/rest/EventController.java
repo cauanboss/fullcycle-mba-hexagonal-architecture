@@ -21,7 +21,8 @@ public class EventController {
 
   private final SubscribeCustomerToEventUseCase subscribeCustomerToEventUseCase;
 
-  public EventController(CreateEventUseCase createEventUseCase,
+  public EventController(
+      CreateEventUseCase createEventUseCase,
       SubscribeCustomerToEventUseCase subscribeCustomerToEventUseCase) {
     this.createEventUseCase = Objects.requireNonNull(createEventUseCase);
     this.subscribeCustomerToEventUseCase = Objects.requireNonNull(subscribeCustomerToEventUseCase);
@@ -31,9 +32,10 @@ public class EventController {
   @ResponseStatus(CREATED)
   public ResponseEntity<?> create(@RequestBody NewEventDTO dto) {
     try {
-      final var output = createEventUseCase.execute(
-          new CreateEventUseCase.Input(
-              dto.name(), dto.date(), dto.totalSpots(), dto.partnerId()));
+      final var output =
+          createEventUseCase.execute(
+              new CreateEventUseCase.Input(
+                  dto.name(), dto.date(), dto.totalSpots(), dto.partnerId()));
       return ResponseEntity.created(URI.create("/events/" + output.id())).body(output);
     } catch (ValidationException e) {
       return ResponseEntity.unprocessableEntity().body(e.getMessage());
@@ -44,8 +46,9 @@ public class EventController {
   @PostMapping(value = "/{id}/subscribe")
   public ResponseEntity<?> subscribe(@PathVariable String id, @RequestBody SubscribeDTO dto) {
     try {
-      final var input = subscribeCustomerToEventUseCase
-          .execute(new SubscribeCustomerToEventUseCase.Input(id, dto.customerId()));
+      final var input =
+          subscribeCustomerToEventUseCase.execute(
+              new SubscribeCustomerToEventUseCase.Input(id, dto.customerId()));
       return ResponseEntity.ok(input);
     } catch (ValidationException e) {
       return ResponseEntity.unprocessableEntity().body(e.getMessage());

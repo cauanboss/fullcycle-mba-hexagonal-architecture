@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.domain.event.Event;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketStatus;
@@ -13,8 +12,8 @@ import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repositories.CustomerRepository;
 import br.com.fullcycle.hexagonal.application.repositories.EventRepository;
 import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
+import br.com.fullcycle.hexagonal.integrationTest;
 import java.util.UUID;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,17 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class SubscribeCustomerToEventITTest extends integrationTest {
 
-  @Autowired
-  private SubscribeCustomerToEventUseCase usecase;
+  @Autowired private SubscribeCustomerToEventUseCase usecase;
 
-  @Autowired
-  private EventRepository eventRepository;
+  @Autowired private EventRepository eventRepository;
 
-  @Autowired
-  private CustomerRepository customerRepository;
+  @Autowired private CustomerRepository customerRepository;
 
-  @Autowired
-  private PartnerRepository partnerRepository;
+  @Autowired private PartnerRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -50,8 +45,9 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
     final var aCustomer = saveCustomer("John Doe", "john.doe@gmail.com", "12345678901");
     final var expectedEventId = aEvent.eventId().value();
 
-    final var subscribeInput = new SubscribeCustomerToEventUseCase.Input(aEvent.eventId().value(),
-        aCustomer.customerId().value());
+    final var subscribeInput =
+        new SubscribeCustomerToEventUseCase.Input(
+            aEvent.eventId().value(), aCustomer.customerId().value());
     final var output = usecase.execute(subscribeInput);
 
     // then
@@ -70,9 +66,10 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
     final var aCustomer = saveCustomer("John Doe", "john.doe@gmail.com", "12345678901");
     final var expectedCustomerId = aCustomer.customerId().value();
 
-    final var subscribeInput = new SubscribeCustomerToEventUseCase.Input(expectedEventId,
-        expectedCustomerId);
-    final var actualException = assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
+    final var subscribeInput =
+        new SubscribeCustomerToEventUseCase.Input(expectedEventId, expectedCustomerId);
+    final var actualException =
+        assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
 
     assertEquals(expectedError, actualException.getMessage());
   }
@@ -88,10 +85,11 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
     final var expectedEventId = aEvent.eventId().value();
     final var expectedCustomerId = UUID.randomUUID().toString();
 
-    final var subscribeInput = new SubscribeCustomerToEventUseCase.Input(expectedEventId,
-        expectedCustomerId);
+    final var subscribeInput =
+        new SubscribeCustomerToEventUseCase.Input(expectedEventId, expectedCustomerId);
 
-    final var actualException = assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
+    final var actualException =
+        assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
 
     assertEquals(expectedError, actualException.getMessage());
   }
@@ -108,12 +106,13 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
     final var aCustomer = saveCustomer("John Doe", "john.doe@gmail.com", "12345678901");
     final var expectedCustomerId = aCustomer.customerId().value();
 
-    final var subscribeInput = new SubscribeCustomerToEventUseCase.Input(aEvent.eventId().value(),
-        expectedCustomerId);
+    final var subscribeInput =
+        new SubscribeCustomerToEventUseCase.Input(aEvent.eventId().value(), expectedCustomerId);
 
     usecase.execute(subscribeInput);
 
-    final var actualException = assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
+    final var actualException =
+        assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
 
     // then
     assertEquals(expectedError, actualException.getMessage());
@@ -130,10 +129,12 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
     final var aEvent = saveEvent("Disney on Ice", 0, aPartner);
     final var aCustomer = saveCustomer("John Doe", "john.doe@gmail.com", "12345678901");
 
-    final var subscribeInput = new SubscribeCustomerToEventUseCase.Input(aEvent.eventId().value(),
-        aCustomer.customerId().value());
+    final var subscribeInput =
+        new SubscribeCustomerToEventUseCase.Input(
+            aEvent.eventId().value(), aCustomer.customerId().value());
 
-    final var actualException = assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
+    final var actualException =
+        assertThrows(ValidationException.class, () -> usecase.execute(subscribeInput));
 
     // then
     assertEquals(expectedError, actualException.getMessage());
@@ -150,5 +151,4 @@ public class SubscribeCustomerToEventITTest extends integrationTest {
   private Partner savePartner(final String name, final String cnpj, final String email) {
     return partnerRepository.create(Partner.newPartner(name, cnpj, email));
   }
-
 }

@@ -1,22 +1,20 @@
 package br.com.fullcycle.hexagonal.infrastructure.jpa.entities;
 
-import jakarta.persistence.*;
-import java.time.Instant;
-import java.util.Objects;
-import java.util.UUID;
-
 import br.com.fullcycle.hexagonal.application.domain.customer.CustomerId;
 import br.com.fullcycle.hexagonal.application.domain.event.EventId;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.Ticket;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketId;
 import br.com.fullcycle.hexagonal.application.domain.event.ticket.TicketStatus;
+import jakarta.persistence.*;
+import java.time.Instant;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity(name = "Tickets")
 @Table(name = "tickets")
 public class TicketEntity {
 
-  @Id
-  private UUID id;
+  @Id private UUID id;
 
   @Column(name = "customer_id")
   private UUID customerId;
@@ -31,8 +29,7 @@ public class TicketEntity {
 
   private Instant reservedAt;
 
-  public TicketEntity() {
-  }
+  public TicketEntity() {}
 
   public TicketEntity(
       UUID id,
@@ -115,10 +112,8 @@ public class TicketEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     TicketEntity ticket = (TicketEntity) o;
     return Objects.equals(customerId, ticket.customerId) && Objects.equals(eventId, ticket.eventId);
   }

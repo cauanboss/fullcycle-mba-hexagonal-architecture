@@ -25,15 +25,17 @@ public class CreatePartnerUseCase
       throw new ValidationException("Partner already exists", null);
     }
 
-    final var partner = partnerRepository.create(Partner.newPartner(input.name, input.cnpj, input.email));
+    final var partner =
+        partnerRepository.create(Partner.newPartner(input.name, input.cnpj, input.email));
 
-    return new Output(partner.partnerId(), partner.cnpj().value(), partner.email().value(),
+    return new Output(
+        partner.partnerId(),
+        partner.cnpj().value(),
+        partner.email().value(),
         partner.name().value());
   }
 
-  public record Input(String cnpj, String email, String name) {
-  }
+  public record Input(String cnpj, String email, String name) {}
 
-  public record Output(String id, String cnpj, String email, String name) {
-  }
+  public record Output(String id, String cnpj, String email, String name) {}
 }

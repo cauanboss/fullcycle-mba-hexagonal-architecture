@@ -3,13 +3,12 @@ package br.com.fullcycle.hexagonal.application.usecases.event;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
 import br.com.fullcycle.hexagonal.application.domain.partner.PartnerId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repositories.EventRepository;
 import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
-
+import br.com.fullcycle.hexagonal.integrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,14 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreateEventUseCaseITTest extends integrationTest {
 
-  @Autowired
-  private CreateEventUseCase usecase;
+  @Autowired private CreateEventUseCase usecase;
 
-  @Autowired
-  private EventRepository eventRepository;
+  @Autowired private EventRepository eventRepository;
 
-  @Autowired
-  private PartnerRepository partnerRepository;
+  @Autowired private PartnerRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -41,8 +37,9 @@ public class CreateEventUseCaseITTest extends integrationTest {
     final var expectedDate = "2021-01-01";
     final var expectedTotalSpots = 10;
 
-    final var createInput = new CreateEventUseCase.Input(
-        expectedName, expectedDate, expectedTotalSpots, partner.partnerId());
+    final var createInput =
+        new CreateEventUseCase.Input(
+            expectedName, expectedDate, expectedTotalSpots, partner.partnerId());
     // when
 
     final var output = usecase.execute(createInput);
@@ -65,8 +62,9 @@ public class CreateEventUseCaseITTest extends integrationTest {
     final var expectedPartnerId = PartnerId.unique();
     final var expectedErrorMessage = "Partner not found";
 
-    final var createInput = new CreateEventUseCase.Input(
-        expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
+    final var createInput =
+        new CreateEventUseCase.Input(
+            expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
     // when
 
     final var output = assertThrows(ValidationException.class, () -> usecase.execute(createInput));

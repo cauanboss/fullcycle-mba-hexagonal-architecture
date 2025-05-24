@@ -2,7 +2,6 @@ package br.com.fullcycle.hexagonal.application.usecases.customer;
 
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryCustomerRepository;
-
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -46,8 +45,10 @@ public class GetCustomerByIdUseCaseTest {
     // when
     final var customerRepository = new inMemoryCustomerRepository();
     final var usecase = new GetCustomerByIdUseCase(customerRepository);
-    Assertions.assertThrows(RuntimeException.class, () -> {
-      usecase.execute(input);
-    });
+    Assertions.assertThrows(
+        RuntimeException.class,
+        () -> {
+          usecase.execute(input);
+        });
   }
 }

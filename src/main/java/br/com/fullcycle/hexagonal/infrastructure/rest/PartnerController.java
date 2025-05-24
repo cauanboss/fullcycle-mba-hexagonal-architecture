@@ -6,7 +6,6 @@ import br.com.fullcycle.hexagonal.application.usecases.partner.GetPartnerByIdUse
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewPartnerDTO;
 import java.net.URI;
 import java.util.Objects;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +21,8 @@ public class PartnerController {
   private final CreatePartnerUseCase createPartnerUseCase;
   private final GetPartnerByIdUseCase getPartnerByIdUseCase;
 
-  public PartnerController(CreatePartnerUseCase createPartnerUseCase,
-      GetPartnerByIdUseCase getPartnerByIdUseCase) {
+  public PartnerController(
+      CreatePartnerUseCase createPartnerUseCase, GetPartnerByIdUseCase getPartnerByIdUseCase) {
     this.createPartnerUseCase = Objects.requireNonNull(createPartnerUseCase);
     this.getPartnerByIdUseCase = Objects.requireNonNull(getPartnerByIdUseCase);
   }
@@ -32,8 +31,9 @@ public class PartnerController {
   public ResponseEntity<?> create(@RequestBody NewPartnerDTO dto) {
 
     try {
-      final var output = createPartnerUseCase.execute(
-          new CreatePartnerUseCase.Input(dto.cnpj(), dto.email(), dto.name()));
+      final var output =
+          createPartnerUseCase.execute(
+              new CreatePartnerUseCase.Input(dto.cnpj(), dto.email(), dto.name()));
 
       return ResponseEntity.created(URI.create("/partners/" + output.id())).body(output);
     } catch (ValidationException e) {

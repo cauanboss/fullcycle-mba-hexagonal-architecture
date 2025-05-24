@@ -6,7 +6,6 @@ import br.com.fullcycle.hexagonal.application.usecases.customer.GetCustomerByIdU
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewCustomerDTO;
 import java.net.URI;
 import java.util.Objects;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +21,8 @@ public class CustomerController {
   private final CreateCustomerUseCase createCustomerUseCase;
   private final GetCustomerByIdUseCase getCustomerByIdUseCase;
 
-  public CustomerController(CreateCustomerUseCase createCustomerUseCase,
-      GetCustomerByIdUseCase getCustomerByIdUseCase) {
+  public CustomerController(
+      CreateCustomerUseCase createCustomerUseCase, GetCustomerByIdUseCase getCustomerByIdUseCase) {
     this.createCustomerUseCase = Objects.requireNonNull(createCustomerUseCase);
     this.getCustomerByIdUseCase = Objects.requireNonNull(getCustomerByIdUseCase);
   }
@@ -31,8 +30,9 @@ public class CustomerController {
   @PostMapping
   public ResponseEntity<?> create(@RequestBody NewCustomerDTO dto) {
     try {
-      final var output = createCustomerUseCase.execute(
-          new CreateCustomerUseCase.Input(dto.cpf(), dto.email(), dto.name()));
+      final var output =
+          createCustomerUseCase.execute(
+              new CreateCustomerUseCase.Input(dto.cpf(), dto.email(), dto.name()));
 
       return ResponseEntity.created(URI.create("/customers/" + output.id())).body(output);
     } catch (ValidationException e) {

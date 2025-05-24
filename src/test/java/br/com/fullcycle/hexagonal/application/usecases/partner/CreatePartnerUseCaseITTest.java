@@ -1,11 +1,10 @@
 package br.com.fullcycle.hexagonal.application.usecases.partner;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.partner.Partner;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repositories.PartnerRepository;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryPartnerRepository;
-
+import br.com.fullcycle.hexagonal.integrationTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreatePartnerUseCaseITTest extends integrationTest {
 
-  @Autowired
-  private PartnerRepository partnerRepository;
+  @Autowired private PartnerRepository partnerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -31,7 +29,8 @@ public class CreatePartnerUseCaseITTest extends integrationTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "John Doe";
 
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
     final var output = usecase.execute(createInput);
@@ -51,7 +50,8 @@ public class CreatePartnerUseCaseITTest extends integrationTest {
     final var expectedName = "John Doe";
     final var expectedError = "Partner already exists";
 
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
     final var aPartner = Partner.newPartner(expectedName, expectedCNPJ, expectedEmail);
 
     final var partnerRepository = new inMemoryPartnerRepository();
@@ -59,7 +59,8 @@ public class CreatePartnerUseCaseITTest extends integrationTest {
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
 
-    final var actualExeption = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualExeption =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualExeption.getMessage());
@@ -74,7 +75,8 @@ public class CreatePartnerUseCaseITTest extends integrationTest {
     final var expectedName = "John Doe";
     final var expectedError = "Partner already exists";
 
-    final var createInput = new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
+    final var createInput =
+        new CreatePartnerUseCase.Input(expectedCNPJ, expectedEmail, expectedName);
     final var aPartner = Partner.newPartner(expectedName, expectedCNPJ, expectedEmail);
 
     final var partnerRepository = new inMemoryPartnerRepository();
@@ -82,7 +84,8 @@ public class CreatePartnerUseCaseITTest extends integrationTest {
 
     final var usecase = new CreatePartnerUseCase(partnerRepository);
 
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualException.getMessage());

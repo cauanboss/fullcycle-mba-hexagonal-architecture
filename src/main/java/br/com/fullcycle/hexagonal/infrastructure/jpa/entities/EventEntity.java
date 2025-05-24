@@ -1,6 +1,9 @@
 package br.com.fullcycle.hexagonal.infrastructure.jpa.entities;
 
+import br.com.fullcycle.hexagonal.application.domain.event.Event;
+import br.com.fullcycle.hexagonal.application.domain.event.EventTicket;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -8,17 +11,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import br.com.fullcycle.hexagonal.application.domain.event.Event;
-import br.com.fullcycle.hexagonal.application.domain.event.EventTicket;
 
 @Entity(name = "Events")
 @Table(name = "events")
@@ -54,16 +52,20 @@ public class EventEntity {
   }
 
   public static EventEntity of(final Event event) {
-    final var eventEntity = new EventEntity(
-        UUID.fromString(event.eventId().value()),
-        event.name(),
-        event.date(),
-        event.totalSpots(),
-        UUID.fromString(event.partnerId().value()));
+    final var eventEntity =
+        new EventEntity(
+            UUID.fromString(event.eventId().value()),
+            event.name(),
+            event.date(),
+            event.totalSpots(),
+            UUID.fromString(event.partnerId().value()));
 
-    event.allTickets().forEach(ticket -> {
-      eventEntity.addTicket(ticket);
-    });
+    event
+        .allTickets()
+        .forEach(
+            ticket -> {
+              eventEntity.addTicket(ticket);
+            });
 
     return eventEntity;
   }
@@ -79,9 +81,7 @@ public class EventEntity {
         date.toString(),
         totalSpots,
         partnerId.toString(),
-        this.tickets.stream()
-            .map(EventTicketEntity::toEventTicket)
-            .collect(Collectors.toSet()));
+        this.tickets.stream().map(EventTicketEntity::toEventTicket).collect(Collectors.toSet()));
   }
 
   public UUID getId() {
@@ -134,10 +134,8 @@ public class EventEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     EventEntity event = (EventEntity) o;
     return Objects.equals(id, event.id);
   }

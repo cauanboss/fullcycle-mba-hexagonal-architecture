@@ -15,7 +15,8 @@ public class CustomerResolver {
   private final CreateCustomerUseCase createCustomerUseCase;
   private final GetCustomerByIdUseCase getCustomerByIdUseCase;
 
-  public CustomerResolver(final CreateCustomerUseCase createCustomerUseCase,
+  public CustomerResolver(
+      final CreateCustomerUseCase createCustomerUseCase,
       final GetCustomerByIdUseCase getCustomerByIdUseCase) {
     this.createCustomerUseCase = Objects.requireNonNull(createCustomerUseCase);
     this.getCustomerByIdUseCase = Objects.requireNonNull(getCustomerByIdUseCase);

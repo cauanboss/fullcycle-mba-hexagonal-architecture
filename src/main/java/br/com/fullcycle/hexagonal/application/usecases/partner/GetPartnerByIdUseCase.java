@@ -21,9 +21,7 @@ public class GetPartnerByIdUseCase
         .map(p -> new Output(p.partnerId(), p.cnpj().value(), p.email().value(), p.name().value()));
   }
 
-  public record Input(String id) {
-  }
+  public record Input(String id) {}
 
-  public record Output(String id, String cnpj, String email, String name) {
-  }
+  public record Output(String id, String cnpj, String email, String name) {}
 }

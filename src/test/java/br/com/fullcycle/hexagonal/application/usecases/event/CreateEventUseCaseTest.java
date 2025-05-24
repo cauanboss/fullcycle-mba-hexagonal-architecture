@@ -8,7 +8,6 @@ import br.com.fullcycle.hexagonal.application.domain.partner.PartnerId;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryEventRepository;
 import br.com.fullcycle.hexagonal.application.repository.inMemoryPartnerRepository;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,10 +27,12 @@ public class CreateEventUseCaseTest {
     final var eventRepository = new inMemoryEventRepository();
     final var partnerRepository = new inMemoryPartnerRepository();
 
-    partnerRepository.create(new Partner(expectedPartnerId, expectedName, expectedCNPJ, expectedEmail));
+    partnerRepository.create(
+        new Partner(expectedPartnerId, expectedName, expectedCNPJ, expectedEmail));
 
-    final var createInput = new CreateEventUseCase.Input(
-        expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
+    final var createInput =
+        new CreateEventUseCase.Input(
+            expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
 
     final var createEventUseCase = new CreateEventUseCase(eventRepository, partnerRepository);
     final var output = createEventUseCase.execute(createInput);
@@ -54,14 +55,16 @@ public class CreateEventUseCaseTest {
     final var expectedPartnerId = PartnerId.unique();
     final var expectedErrorMessage = "Partner not found";
 
-    final var createInput = new CreateEventUseCase.Input(
-        expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
+    final var createInput =
+        new CreateEventUseCase.Input(
+            expectedName, expectedDate, expectedTotalSpots, expectedPartnerId.value());
     // when
     final var eventRepository = new inMemoryEventRepository();
     final var partnerRepository = new inMemoryPartnerRepository();
 
     final var createEventUseCase = new CreateEventUseCase(eventRepository, partnerRepository);
-    final var output = assertThrows(ValidationException.class, () -> createEventUseCase.execute(createInput));
+    final var output =
+        assertThrows(ValidationException.class, () -> createEventUseCase.execute(createInput));
 
     assertThat(output.getMessage()).isEqualTo(expectedErrorMessage);
   }

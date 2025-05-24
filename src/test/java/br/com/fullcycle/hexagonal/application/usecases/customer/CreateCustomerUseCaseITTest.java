@@ -1,10 +1,9 @@
 package br.com.fullcycle.hexagonal.application.usecases.customer;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repositories.CustomerRepository;
-
+import br.com.fullcycle.hexagonal.integrationTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CreateCustomerUseCaseITTest extends integrationTest {
 
-  @Autowired
-  private CreateCustomerUseCase usecase;
+  @Autowired private CreateCustomerUseCase usecase;
 
-  @Autowired
-  private CustomerRepository customerRepository;
+  @Autowired private CustomerRepository customerRepository;
 
   @AfterEach
   void tearDown() {
@@ -33,7 +30,8 @@ public class CreateCustomerUseCaseITTest extends integrationTest {
     final var expectedEmail = "john.doe@gmail.com";
     final var expectedName = "John Doe";
 
-    final var createInput = new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
+    final var createInput =
+        new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
 
     final var output = usecase.execute(createInput);
 
@@ -53,9 +51,11 @@ public class CreateCustomerUseCaseITTest extends integrationTest {
     final var expectedError = "Customer already exists";
     this.saveCustomer(expectedCPF, expectedEmail, expectedName);
 
-    final var createInput = new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
+    final var createInput =
+        new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
 
-    final var actualExeption = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualExeption =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualExeption.getMessage());
@@ -72,9 +72,11 @@ public class CreateCustomerUseCaseITTest extends integrationTest {
 
     this.saveCustomer(expectedCPF, expectedEmail, expectedName);
 
-    final var createInput = new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
+    final var createInput =
+        new CreateCustomerUseCase.Input(expectedCPF, expectedEmail, expectedName);
 
-    final var actualException = Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
+    final var actualException =
+        Assertions.assertThrows(ValidationException.class, () -> usecase.execute(createInput));
 
     // then
     Assertions.assertEquals(expectedError, actualException.getMessage());

@@ -1,10 +1,9 @@
 package br.com.fullcycle.hexagonal.application.usecases.customer;
 
-import br.com.fullcycle.hexagonal.integrationTest;
 import br.com.fullcycle.hexagonal.application.domain.customer.Customer;
 import br.com.fullcycle.hexagonal.application.exceptions.ValidationException;
 import br.com.fullcycle.hexagonal.application.repositories.CustomerRepository;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.CustomerEntity;
+import br.com.fullcycle.hexagonal.integrationTest;
 import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,11 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class GetCustomerByIdUseCaseITTest extends integrationTest {
 
-  @Autowired
-  private GetCustomerByIdUseCase usecase;
+  @Autowired private GetCustomerByIdUseCase usecase;
 
-  @Autowired
-  private CustomerRepository customerRepository;
+  @Autowired private CustomerRepository customerRepository;
 
   @BeforeEach
   void tearDown() {
@@ -53,9 +50,10 @@ public class GetCustomerByIdUseCaseITTest extends integrationTest {
 
       final var input = new GetCustomerByIdUseCase.Input(expectedId);
       // When & Then (act & assert)
-      RuntimeException exception = Assertions.assertThrows(
-          RuntimeException.class, () -> usecase.execute(input) // Executa e espera a exceção
-      );
+      RuntimeException exception =
+          Assertions.assertThrows(
+              RuntimeException.class, () -> usecase.execute(input) // Executa e espera a exceção
+              );
 
       // Verifica a mensagem da exceção
       Assertions.assertEquals("Customer not found", exception.getMessage());

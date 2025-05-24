@@ -15,7 +15,8 @@ public class PartnerResolver {
   private final CreatePartnerUseCase createPartnerUseCase;
   private final GetPartnerByIdUseCase getPartnerByIdUseCase;
 
-  public PartnerResolver(final CreatePartnerUseCase createPartnerUseCase,
+  public PartnerResolver(
+      final CreatePartnerUseCase createPartnerUseCase,
       final GetPartnerByIdUseCase getPartnerByIdUseCase) {
     this.createPartnerUseCase = Objects.requireNonNull(createPartnerUseCase);
     this.getPartnerByIdUseCase = Objects.requireNonNull(getPartnerByIdUseCase);

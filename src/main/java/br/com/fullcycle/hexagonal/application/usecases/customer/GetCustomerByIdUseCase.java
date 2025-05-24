@@ -18,13 +18,14 @@ public class GetCustomerByIdUseCase
   public Output execute(final Input input) {
     return customerRepository
         .customerOfId(CustomerId.with(input.id))
-        .map(c -> new Output(c.customerId().value(), c.cpf().value(), c.email().value(), c.name().value()))
+        .map(
+            c ->
+                new Output(
+                    c.customerId().value(), c.cpf().value(), c.email().value(), c.name().value()))
         .orElseThrow(() -> new RuntimeException("Customer not found"));
   }
 
-  public record Input(String id) {
-  }
+  public record Input(String id) {}
 
-  public record Output(String id, String cpf, String email, String name) {
-  }
+  public record Output(String id, String cpf, String email, String name) {}
 }

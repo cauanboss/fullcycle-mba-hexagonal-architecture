@@ -20,18 +20,23 @@ public class CreateEventUseCase
 
   @Override
   public Output execute(Input input) {
-    final var partner = partnerRepository.partnerOfId(PartnerId.with(input.partnerId))
-        .orElseThrow(() -> new ValidationException("Partner not found", null));
+    final var partner =
+        partnerRepository
+            .partnerOfId(PartnerId.with(input.partnerId))
+            .orElseThrow(() -> new ValidationException("Partner not found", null));
 
-    final var event = eventRepository.create(Event.newEvent(input.name, input.date, input.totalSpots, partner));
+    final var event =
+        eventRepository.create(Event.newEvent(input.name, input.date, input.totalSpots, partner));
 
-    return new Output(event.eventId().value(), event.name(), event.date().toString(),
-        event.totalSpots(), partner.partnerId());
+    return new Output(
+        event.eventId().value(),
+        event.name(),
+        event.date().toString(),
+        event.totalSpots(),
+        partner.partnerId());
   }
 
-  public record Input(String name, String date, Integer totalSpots, String partnerId) {
-  }
+  public record Input(String name, String date, Integer totalSpots, String partnerId) {}
 
-  public record Output(String id, String name, String date, Integer totalSpots, String partnerId) {
-  }
+  public record Output(String id, String name, String date, Integer totalSpots, String partnerId) {}
 }

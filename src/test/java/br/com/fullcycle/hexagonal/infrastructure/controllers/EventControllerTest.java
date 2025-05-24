@@ -10,12 +10,7 @@ import br.com.fullcycle.hexagonal.application.usecases.event.CreateEventUseCase;
 import br.com.fullcycle.hexagonal.infrastructure.Main;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.NewEventDTO;
 import br.com.fullcycle.hexagonal.infrastructure.dtos.SubscribeDTO;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.CustomerEntity;
-import br.com.fullcycle.hexagonal.infrastructure.jpa.entities.PartnerEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.UUID;
-
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,28 +27,27 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(classes = Main.class)
 class EventControllerTest {
 
-  @Autowired
-  private MockMvc mvc;
+  @Autowired private MockMvc mvc;
 
-  @Autowired
-  private ObjectMapper mapper;
+  @Autowired private ObjectMapper mapper;
 
-  @Autowired
-  private CustomerRepository customerRepository;
+  @Autowired private CustomerRepository customerRepository;
 
-  @Autowired
-  private PartnerRepository partnerRepository;
+  @Autowired private PartnerRepository partnerRepository;
 
-  @Autowired
-  private EventRepository eventRepository;
+  @Autowired private EventRepository eventRepository;
 
   private Customer johnDoe;
   private Partner disney;
 
   @BeforeEach
   void setUp() {
-    johnDoe = customerRepository.create(Customer.newCustomer("John Doe", "37072097090", "john@gmail.com"));
-    disney = partnerRepository.create(Partner.newPartner("Disney", "23180616000197", "disney@gmail.com"));
+    johnDoe =
+        customerRepository.create(
+            Customer.newCustomer("John Doe", "37072097090", "john@gmail.com"));
+    disney =
+        partnerRepository.create(
+            Partner.newPartner("Disney", "23180616000197", "disney@gmail.com"));
   }
 
   @AfterEach
@@ -68,16 +62,17 @@ class EventControllerTest {
   public void testCreate() throws Exception {
     final var event = new NewEventDTO("Disney on Ice", "2021-01-01", 100, disney.partnerId());
 
-    final var createResult = this.mvc
-        .perform(
-            MockMvcRequestBuilders.post("/events")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(event)))
-        .andExpect(MockMvcResultMatchers.status().isCreated())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
-        .andReturn()
-        .getResponse()
-        .getContentAsByteArray();
+    final var createResult =
+        this.mvc
+            .perform(
+                MockMvcRequestBuilders.post("/events")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(event)))
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
+            .andReturn()
+            .getResponse()
+            .getContentAsByteArray();
 
     var actualResponse = mapper.readValue(createResult, CreateEventUseCase.Output.class);
     Assertions.assertEquals(event.date(), actualResponse.date());
@@ -92,16 +87,17 @@ class EventControllerTest {
 
     var event = new NewEventDTO("Disney on Ice", "2021-01-01", 100, disney.partnerId());
 
-    final var createResult = this.mvc
-        .perform(
-            MockMvcRequestBuilders.post("/events")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(event)))
-        .andExpect(MockMvcResultMatchers.status().isCreated())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
-        .andReturn()
-        .getResponse()
-        .getContentAsByteArray();
+    final var createResult =
+        this.mvc
+            .perform(
+                MockMvcRequestBuilders.post("/events")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(mapper.writeValueAsString(event)))
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
+            .andReturn()
+            .getResponse()
+            .getContentAsByteArray();
 
     var eventId = mapper.readValue(createResult, CreateEventUseCase.Output.class).id();
 
