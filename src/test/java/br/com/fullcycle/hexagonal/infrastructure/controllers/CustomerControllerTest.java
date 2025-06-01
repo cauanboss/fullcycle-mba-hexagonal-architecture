@@ -122,33 +122,42 @@ public class CustomerControllerTest {
   @Test
   @DisplayName("Deve obter um cliente por id")
   public void testGet() throws Exception {
-    var customer = new NewCustomerDTO("John Doe", "12345678901", "john.doe@gmail.com");
+    try {
+      var customer = new NewCustomerDTO("John Doe", "12345678909", "john.doe4444@gmail.com");
 
-    final var createResult =
-        this.mvc
-            .perform(
-                MockMvcRequestBuilders.post("/customers")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(mapper.writeValueAsString(customer)))
-            .andExpect(MockMvcResultMatchers.status().isCreated())
-            .andReturn()
-            .getResponse()
-            .getContentAsByteArray();
+      final var createResult =
+          this.mvc
+              .perform(
+                  MockMvcRequestBuilders.post("/customers")
+                      .contentType(MediaType.APPLICATION_JSON)
+                      .content(mapper.writeValueAsString(customer)))
+              .andExpect(MockMvcResultMatchers.status().isCreated())
+              .andExpect(MockMvcResultMatchers.header().exists("Location"))
+              .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
+              .andReturn()
+              .getResponse()
+              .getContentAsByteArray();
 
-    var customerId = mapper.readValue(createResult, CreateCustomerUseCase.Output.class).id();
+      var customerId = mapper.readValue(createResult, CreateCustomerUseCase.Output.class).id();
 
-    final var result =
-        this.mvc
-            .perform(MockMvcRequestBuilders.get("/customers/{id}", customerId))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsByteArray();
+      final var result =
+          this.mvc
+              .perform(MockMvcRequestBuilders.get("/customers/{id}", customerId))
+              .andExpect(MockMvcResultMatchers.status().isOk())
+              .andReturn()
+              .getResponse()
+              .getContentAsByteArray();
 
-    var actualResponse = mapper.readValue(result, GetCustomerByIdUseCase.Output.class);
-    Assertions.assertEquals(customerId, actualResponse.id());
-    Assertions.assertEquals(customer.name(), actualResponse.name());
-    Assertions.assertEquals(customer.cpf(), actualResponse.cpf());
-    Assertions.assertEquals(customer.email(), actualResponse.email());
+      var actualResponse = mapper.readValue(result, GetCustomerByIdUseCase.Output.class);
+      System.out.println("Expected ID: " + customerId);
+      System.out.println("Actual ID: " + actualResponse.id());
+      Assertions.assertEquals(customerId, actualResponse.id());
+      Assertions.assertEquals(customer.name(), actualResponse.name());
+      Assertions.assertEquals(customer.cpf(), actualResponse.cpf());
+      Assertions.assertEquals(customer.email(), actualResponse.email());
+    } catch (Exception e) {
+      System.out.println("Error: " + e.getMessage());
+      throw e;
+    }
   }
 }
